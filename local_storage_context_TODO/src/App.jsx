@@ -8,7 +8,7 @@ import TodoItem from './components/TodoItem'
 function App() {
 
   const [todos, setTodos] = useState([])
-  const hasMounted = useRef(false)
+  
 
   const addTodo = (todo) => {
     setTodos((prev) => [{id: Date.now(), ...todo}, ...prev])
@@ -34,13 +34,13 @@ function App() {
   }
   
   useEffect(() => {
-    const todos = localStorage.getItem("todos")
+    const todos = JSON.parse(localStorage.getItem("todos"))
      console.log('UseEffect 1 :' + todos)
      
     console.log('useEffect1')
     if(todos && todos.length > 0)
     {
-      setTodos(JSON.parse(todos))
+      setTodos(todos)
     }
     
   }, [])
@@ -48,11 +48,9 @@ function App() {
   useEffect(() => {
     console.log('useEffect 2')
     console.log('These are todos: ' + JSON.stringify(todos))
-    if(hasMounted.current)
-    {
+   
       localStorage.setItem("todos", JSON.stringify(todos))
-    }
-    else hasMounted.current = true
+    
   }, [todos])
 
   return (
